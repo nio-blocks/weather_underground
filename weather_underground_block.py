@@ -15,8 +15,8 @@ class WeatherUndergroundSignal(Signal):
 
 
 class Location(PropertyHolder):
-    state = StringProperty()
-    city = StringProperty()
+    state = StringProperty(title='State')
+    city = StringProperty(title='City')
 
 
 @Discoverable(DiscoverableType.block)
@@ -31,8 +31,8 @@ class WeatherUnderground(RESTPolling):
     URL_FORMAT = ("http://api.wunderground.com/api/{0}/"
                   "conditions/q/{1}/{2}.json")
 
-    queries = ListProperty(Location)
-    api_key = StringProperty()
+    queries = ListProperty(Location, title='Locations')
+    api_key = StringProperty(title='API Key')
 
     def __init__(self):
         super().__init__()
