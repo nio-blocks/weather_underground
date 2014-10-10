@@ -49,7 +49,9 @@ class WeatherUnderground(RESTPolling):
         super().start()
         # RESTPolling handles scheduling the poll job,
         # but we want one poll on start.
-        self.poll()
+        if self.polling_interval.total_seconds() > 0:
+            self.poll()
+        # else, only poll manually.
 
     def configure(self, context):
         super().configure(context)
