@@ -5,7 +5,9 @@ from nio.metadata.properties.list import ListProperty
 from nio.metadata.properties.string import StringProperty
 from nio.metadata.properties.object import ObjectProperty
 from nio.metadata.properties.holder import PropertyHolder
+from nio.metadata.properties.timedelta import TimeDeltaProperty
 from nio.common.signal.base import Signal
+from datetime import timedelta
 
 
 class WeatherUndergroundSignal(Signal):
@@ -33,10 +35,21 @@ class WeatherUnderground(RESTPolling):
                   "conditions/q/{1}/{2}.json")
 
     queries = ListProperty(Location, title='Locations')
-    api_key = StringProperty(title='API Key')
+    api_key = StringProperty(title='API Key',
+                             default='[[WEATHER_UNDERGROUND_KEY_ID]]')
+    polling_interval = TimeDeltaProperty(title='Polling Interval',
+                                         default=timedelta(seconds=300))
+    retry_interval = TimeDeltaProperty(title='Retry Interval',
+                                       default=timedelta(seconds=10))
 
     def __init__(self):
         super().__init__()
+
+    def start(self):
+        super().start()
+        # RESTPolling handles scheduling the poll job,
+        # but we want one poll on start.
+        self.poll()
 
     def configure(self, context):
         super().configure(context)
