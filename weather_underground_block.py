@@ -10,13 +10,6 @@ from nio.common.signal.base import Signal
 from datetime import timedelta
 
 
-class WeatherUndergroundSignal(Signal):
-    def __init__(self, data):
-        super().__init__()
-        for k in data:
-            setattr(self, k, data[k])
-
-
 class Location(PropertyHolder):
     state = StringProperty(title='State')
     city = StringProperty(title='City')
@@ -65,7 +58,7 @@ class WeatherUnderground(RESTPolling):
         data = resp.get('current_observation')
 
         if data:
-            signals = [WeatherUndergroundSignal(data)]
+            signals = [Signal(data)]
             self._logger.debug(
                 "Creating weather undergrond signal for: {0},{1}"
                 .format(self.current_query.city, self.current_query.state)
