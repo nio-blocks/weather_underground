@@ -1,3 +1,4 @@
+from urllib.request import quote
 from unittest.mock import patch
 from requests import Response
 from ..weather_underground_block import WeatherUnderground
@@ -30,6 +31,8 @@ class TestWeatherUnderground(NIOBlockTestCase):
         }
         e = Event()
         blk = WUnderTest(e)
+        city = 'San Francisco'
+        state = 'California'
         self.configure_block(blk, {
             'polling_interval': {
                 'seconds': 1
@@ -38,12 +41,18 @@ class TestWeatherUnderground(NIOBlockTestCase):
                 'seconds': 1
             },
             'queries': [{
-                'state': 'California',
-                'city': 'San Francisco'
+                'state': state,
+                'city': city
             }],
         })
         blk.start()
         e.wait(2)
         self.assert_num_signals_notified(1)
-
+        self.assertEqual(mock_get.call_args[0][0],
+                         blk.URL_FORMAT.format(
+                             blk.api_key,
+                             'conditions',
+                             quote(state),
+                             quote(city))
+                         )
         blk.stop()
