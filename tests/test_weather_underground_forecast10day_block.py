@@ -1,12 +1,13 @@
 from urllib.request import quote
 from unittest.mock import patch
 from requests import Response
-from ..weather_underground_block import WeatherUnderground
+from ..weather_underground_forecast10day_block \
+    import WeatherUndergroundForecast10Day
 from nio.util.support.block_test_case import NIOBlockTestCase
 from nio.modules.threading import Event
 
 
-class WUnderTest(WeatherUnderground):
+class WUnderTest(WeatherUndergroundForecast10Day):
     def __init__(self, event):
         super().__init__()
         self._event = event
@@ -17,7 +18,7 @@ class WUnderTest(WeatherUnderground):
         return signals, paging
 
 
-class TestWeatherUnderground(NIOBlockTestCase):
+class TestWeatherUndergroundForecast10Day(NIOBlockTestCase):
 
     @patch("requests.get")
     @patch("requests.Response.json")
@@ -25,7 +26,7 @@ class TestWeatherUnderground(NIOBlockTestCase):
         mock_get.return_value = Response()
         mock_get.return_value.status_code = 200
         mock_json.return_value = {
-            'current_observation': {
+            'forecast': {
                 'stuff': 'things'
             }
         }
@@ -51,7 +52,7 @@ class TestWeatherUnderground(NIOBlockTestCase):
         self.assertEqual(mock_get.call_args[0][0],
                          blk.URL_FORMAT.format(
                              blk.api_key,
-                             'conditions',
+                             'forecast10day',
                              quote(state),
                              quote(city))
                          )

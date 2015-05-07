@@ -1,12 +1,12 @@
 from urllib.request import quote
 from unittest.mock import patch
 from requests import Response
-from ..weather_underground_block import WeatherUnderground
+from ..weather_underground_conditions_block import WeatherUndergroundConditions
 from nio.util.support.block_test_case import NIOBlockTestCase
 from nio.modules.threading import Event
 
 
-class WUnderTest(WeatherUnderground):
+class WUnderTest(WeatherUndergroundConditions):
     def __init__(self, event):
         super().__init__()
         self._event = event
@@ -17,7 +17,7 @@ class WUnderTest(WeatherUnderground):
         return signals, paging
 
 
-class TestWeatherUnderground(NIOBlockTestCase):
+class TestWeatherUndergroundConditions(NIOBlockTestCase):
 
     @patch("requests.get")
     @patch("requests.Response.json")
