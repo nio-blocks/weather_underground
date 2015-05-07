@@ -1,4 +1,5 @@
 from nio.common.discovery import Discoverable, DiscoverableType
+from nio.metadata.properties.version import VersionProperty
 from .weather_underground_base import WeatherUndergroundBase
 
 
@@ -13,6 +14,8 @@ class WeatherUndergroundForecast10Day(WeatherUndergroundBase):
         queries (list): List of city/states to poll for weeather conds.
 
     """
+
+    version = VersionProperty(version='1.0.0')
 
     def __init__(self):
         super().__init__()
