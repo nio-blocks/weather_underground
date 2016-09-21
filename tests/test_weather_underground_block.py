@@ -1,12 +1,12 @@
 from urllib.request import quote
 from unittest.mock import patch
 from requests import Response
-from ..weather_underground_block import WeatherUnderground
-from nio.util.support.block_test_case import NIOBlockTestCase
-from nio.modules.threading import Event
+from ..weather_underground_conditions_block import WeatherUndergroundConditions
+from nio.testing.block_test_case import NIOBlockTestCase
+from threading import Event
 
 
-class WUnderTest(WeatherUnderground):
+class WUnderTest(WeatherUndergroundConditions):
     def __init__(self, event):
         super().__init__()
         self._event = event
@@ -50,7 +50,7 @@ class TestWeatherUnderground(NIOBlockTestCase):
         self.assert_num_signals_notified(1)
         self.assertEqual(mock_get.call_args[0][0],
                          blk.URL_FORMAT.format(
-                             blk.api_key,
+                             blk.api_key(),
                              'conditions',
                              quote(state),
                              quote(city))
