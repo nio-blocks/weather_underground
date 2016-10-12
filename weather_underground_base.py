@@ -1,9 +1,8 @@
 from urllib.request import quote
-from nio.util.discovery import discoverable
+from nio.util.discovery import  not_discoverable
 from .http_blocks.rest.rest_block import RESTPolling
 from nio.properties.list import ListProperty
 from nio.properties.string import StringProperty
-from nio.properties.object import ObjectProperty
 from nio.properties.holder import PropertyHolder
 from nio.properties.timedelta import TimeDeltaProperty
 from nio.signal.base import Signal
@@ -15,6 +14,7 @@ class Location(PropertyHolder):
     city = StringProperty(title='City', default='')
 
 
+@not_discoverable
 class WeatherUndergroundBase(RESTPolling):
     """ This base block polls the Weather Underground API.
 
