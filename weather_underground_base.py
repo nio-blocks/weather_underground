@@ -1,20 +1,20 @@
 from urllib.request import quote
-from nio.common.discovery import Discoverable, DiscoverableType
+from nio.util.discovery import  not_discoverable
 from .http_blocks.rest.rest_block import RESTPolling
-from nio.metadata.properties.list import ListProperty
-from nio.metadata.properties.string import StringProperty
-from nio.metadata.properties.object import ObjectProperty
-from nio.metadata.properties.holder import PropertyHolder
-from nio.metadata.properties.timedelta import TimeDeltaProperty
-from nio.common.signal.base import Signal
+from nio.properties.list import ListProperty
+from nio.properties.string import StringProperty
+from nio.properties.holder import PropertyHolder
+from nio.properties.timedelta import TimeDeltaProperty
+from nio.signal.base import Signal
 from datetime import timedelta
 
 
 class Location(PropertyHolder):
-    state = StringProperty(title='State')
-    city = StringProperty(title='City')
+    state = StringProperty(title='State', default='')
+    city = StringProperty(title='City', default='')
 
 
+@not_discoverable
 class WeatherUndergroundBase(RESTPolling):
     """ This base block polls the Weather Underground API.
 
@@ -63,14 +63,14 @@ class WeatherUndergroundBase(RESTPolling):
 
         if data:
             signals = [Signal(data)]
-            self._logger.debug(
+            self.logger.debug(
                 "Creating weather undergrond signal for: {0},{1}"
-                .format(self.current_query.city, self.current_query.state)
+                .format(self.current_query.city(), self.current_query.state())
             )
         else:
-            self._logger.warning(
+            self.logger.warning(
                 "Failed getting weather for: {0},{1}"
-                .format(self.current_query.city, self.current_query.state)
+                .format(self.current_query.city(), self.current_query.state())
             )
 
         return signals, paging
@@ -86,13 +86,13 @@ class WeatherUndergroundBase(RESTPolling):
 
         """
         headers = {"Content-Type": "application/json"}
-        self.url = self.URL_FORMAT.format(self.api_key,
+        self.url = self.URL_FORMAT.format(self.api_key(),
                                           self._api_endpoint,
-                                          quote(self.current_query.state),
-                                          quote(self.current_query.city))
+                                          quote(self.current_query.state()),
+                                          quote(self.current_query.city()))
 
         return headers
 
     @property
     def current_query(self):
-        return self.queries[self._idx]
+        return self.queries()[self._idx]

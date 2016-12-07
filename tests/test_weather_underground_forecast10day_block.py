@@ -3,8 +3,8 @@ from unittest.mock import patch
 from requests import Response
 from ..weather_underground_forecast10day_block \
     import WeatherUndergroundForecast10Day
-from nio.util.support.block_test_case import NIOBlockTestCase
-from nio.modules.threading import Event
+from nio.testing.block_test_case import NIOBlockTestCase
+from threading import Event
 
 
 class WUnderTest(WeatherUndergroundForecast10Day):
@@ -51,7 +51,7 @@ class TestWeatherUndergroundForecast10Day(NIOBlockTestCase):
         self.assert_num_signals_notified(1)
         self.assertEqual(mock_get.call_args[0][0],
                          blk.URL_FORMAT.format(
-                             blk.api_key,
+                             blk.api_key(),
                              'forecast10day',
                              quote(state),
                              quote(city))

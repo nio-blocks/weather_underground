@@ -1,9 +1,9 @@
-from nio.common.discovery import Discoverable, DiscoverableType
-from nio.metadata.properties.version import VersionProperty
+from nio.util.discovery import discoverable
+from nio.properties.version import VersionProperty
 from .weather_underground_base import WeatherUndergroundBase
 
 
-@Discoverable(DiscoverableType.block)
+@discoverable
 class WeatherUndergroundForecast10Day(WeatherUndergroundBase):
     """ This block polls the Weather Underground API, grabbing the
     weather forecast10day in a given location.
