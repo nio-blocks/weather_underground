@@ -20,4 +20,3 @@ class WeatherUndergroundForecast10Day(WeatherUndergroundBase):
     def __init__(self):
         super().__init__()
         self._api_endpoint = 'forecast10day'
-        self._response_key = 'forecast'
