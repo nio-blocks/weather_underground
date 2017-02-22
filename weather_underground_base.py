@@ -29,10 +29,6 @@ class WeatherUndergroundBase(Block):
     city = StringProperty(title='City', default='')
     api_key = StringProperty(title='API Key',
                              default='[[WEATHER_UNDERGROUND_KEY_ID]]')
-    polling_interval = TimeDeltaProperty(title='Polling Interval',
-                                         default=timedelta(seconds=300))
-    retry_interval = TimeDeltaProperty(title='Retry Interval',
-                                       default=timedelta(seconds=10))
 
     def __init__(self):
         super().__init__()
