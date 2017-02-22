@@ -20,4 +20,3 @@ class WeatherUndergroundConditions(WeatherUndergroundBase):
     def __init__(self):
         super().__init__()
         self._api_endpoint = 'conditions'
-        self._response_key = 'current_observation'

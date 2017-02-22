@@ -1,6 +1,7 @@
+import requests
 from urllib.request import quote
+from nio.block.base import Block
 from nio.util.discovery import  not_discoverable
-from .http_blocks.rest.rest_block import RESTPolling
 from nio.properties.list import ListProperty
 from nio.properties.string import StringProperty
 from nio.properties.holder import PropertyHolder
@@ -15,7 +16,7 @@ class Location(PropertyHolder):
 
 
 @not_discoverable
-class WeatherUndergroundBase(RESTPolling):
+class WeatherUndergroundBase(Block):
     """ This base block polls the Weather Underground API.
 
     Blocks that extend this should specify the api endpoint and what to extract
@@ -40,59 +41,37 @@ class WeatherUndergroundBase(RESTPolling):
     def __init__(self):
         super().__init__()
         self._api_endpoint = 'conditions'
-        self._response_key = 'current_observation'
 
     def configure(self, context):
         super().configure(context)
 
-    def _process_response(self, resp):
-        """ Extract weather conditions from response.
+    def process_signals(self, signals):
+        response = None
+        weather_signals = []
 
-        Args:
-            resp (Response)
+        for signal in signals:
+            for locations in self.queries():
+                response = self.get_weather_from_city_state(
+                                locations.state(signal),
+                                locations.city(signal))
+                weather_signals.append(Signal(response.json()))
 
-        Returns:
-            signals (list(Signal)): List containing one weather signal.
-            paging (bool): Always false because we do not feed to page.
+        self.notify_signals(weather_signals)
 
-        """
-        signals = []
-        paging = False
-        resp = resp.json()
-        data = resp.get(self._response_key)
-
-        if data:
-            signals = [Signal(data)]
-            self.logger.debug(
-                "Creating weather undergrond signal for: {0},{1}"
-                .format(self.current_query.city(), self.current_query.state())
-            )
-        else:
-            self.logger.warning(
-                "Failed getting weather for: {0},{1}"
-                .format(self.current_query.city(), self.current_query.state())
-            )
-
-        return signals, paging
-
-    def _prepare_url(self, paging=False):
-        """ Overridden from RESTPolling block.
-
-        Args:
-            paging (bool): Are we paging?
-
-        Returns:
-            headers (dict): Contains the (case sensitive) http headers.
+    def get_weather_from_city_state(self, state, city):
+        """ Execute the request
 
         """
         headers = {"Content-Type": "application/json"}
+        resp = None
         self.url = self.URL_FORMAT.format(self.api_key(),
                                           self._api_endpoint,
-                                          quote(self.current_query.state()),
-                                          quote(self.current_query.city()))
+                                          state,
+                                          city)
 
-        return headers
-
-    @property
-    def current_query(self):
-        return self.queries()[self._idx]
+        try:
+            resp = requests.get(self.url, headers=headers)
+        except Exception as e:
+            self.logger.warning("GET request failed, details: %s" % e)
+        finally:
+            return resp
