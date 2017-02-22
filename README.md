@@ -20,7 +20,6 @@ Dependencies
 ----------------
 
 -   [requests](https://pypi.python.org/pypi/requests/)
--   [RESTPolling Block](https://github.com/nio-blocks/http_blocks/blob/master/rest/rest_block.py)
 
 Commands
 ----------------
