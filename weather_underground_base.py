@@ -10,11 +10,6 @@ from nio.signal.base import Signal
 from datetime import timedelta
 
 
-class Location(PropertyHolder):
-    state = StringProperty(title='State', default='')
-    city = StringProperty(title='City', default='')
-
-
 @not_discoverable
 class WeatherUndergroundBase(Block):
     """ This base block polls the Weather Underground API.
@@ -30,7 +25,8 @@ class WeatherUndergroundBase(Block):
     URL_FORMAT = ("http://api.wunderground.com/api/{}/"
                   "{}/q/{}/{}.json")
 
-    queries = ListProperty(Location, title='Locations')
+    state = StringProperty(title='State', default='')
+    city = StringProperty(title='City', default='')
     api_key = StringProperty(title='API Key',
                              default='[[WEATHER_UNDERGROUND_KEY_ID]]')
     polling_interval = TimeDeltaProperty(title='Polling Interval',
@@ -50,11 +46,10 @@ class WeatherUndergroundBase(Block):
         weather_signals = []
 
         for signal in signals:
-            for locations in self.queries():
-                response = self.get_weather_from_city_state(
-                                locations.state(signal),
-                                locations.city(signal))
-                weather_signals.append(Signal(response.json()))
+            response = self.get_weather_from_city_state(
+                            self.state(signal),
+                            self.city(signal))
+            weather_signals.append(Signal(response.json()))
 
         self.notify_signals(weather_signals)
 
@@ -71,7 +66,10 @@ class WeatherUndergroundBase(Block):
 
         try:
             resp = requests.get(self.url, headers=headers)
-        except Exception as e:
-            self.logger.warning("GET request failed, details: %s" % e)
+            if resp.status != 200:
+                self.logger.warning("GET request returned response status {}"
+                    .format(resp.status))
+        except:
+            self.logger.exception("GET request failed")
         finally:
             return resp
