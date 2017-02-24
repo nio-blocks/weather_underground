@@ -19,7 +19,8 @@ class WeatherUndergroundBase(Block):
         http://www.wunderground.com/weather/api/d/docs?d=data/conditions
 
     Params:
-        queries (list): List of city/states to poll for weeather conds.
+        city (string): City to poll for weather conds.
+        state (string): State to poll for weather conds.
 
     """
     URL_FORMAT = ("http://api.wunderground.com/api/{}/"
@@ -59,12 +60,11 @@ class WeatherUndergroundBase(Block):
                                           self._api_endpoint,
                                           state,
                                           city)
-
         try:
             resp = requests.get(self.url, headers=headers)
-            if resp.status != 200:
+            if resp.status_code != 200:
                 self.logger.warning("GET request returned response status {}"
-                    .format(resp.status))
+                    .format(resp.status_code))
         except:
             self.logger.exception("GET request failed")
         finally:
