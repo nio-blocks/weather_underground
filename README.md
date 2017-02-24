@@ -12,7 +12,6 @@ Properties
 -   **city**: City to poll.
 -   **state**: State to poll.
 -   **api_key**: API credentials.
--   **polling_interval**: How often API is polled. When using more than one query. Each query will be polled at a period equal to the *polling\_interval* times the number of queries.
 
 
 Dependencies
