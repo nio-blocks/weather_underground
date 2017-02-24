@@ -11,7 +11,8 @@ class WeatherUndergroundConditions(WeatherUndergroundBase):
     http://www.wunderground.com/weather/api/d/docs?d=data/conditions
 
     Params:
-        queries (list): List of city/states to poll for weeather conds.
+        city (string): City to poll for weather conds.
+        state (string): State to poll for weather conds.
 
     """
 
