@@ -49,6 +49,7 @@ class WeatherUndergroundBase(Retry, Block):
                                          state,
                                          city)
         try:
+            self.logger.debug("making request to url: {}".format(get_url))
             resp = requests.get(get_url, headers=headers)
             resp.raise_for_status()
         except:
