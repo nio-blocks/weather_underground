@@ -38,7 +38,8 @@ class WeatherUndergroundBase(Retry, Block):
                 self.get_weather_from_city_state,
                 self.state(signal),
                 self.city(signal))
-            weather_signals.append(Signal(response.json()))
+            weather_signals.append(Signal(response.json()['current_observation']))
+            self.logger.debug("Weather Signal: {}".format(response.json()['current_observation']))
 
         self.notify_signals(weather_signals)
 
