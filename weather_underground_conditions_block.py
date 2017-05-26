@@ -1,6 +1,7 @@
 from nio.util.discovery import discoverable
 from nio.properties.version import VersionProperty
 from .weather_underground_base import WeatherUndergroundBase
+from nio.signal.base import Signal
 
 
 @discoverable
@@ -21,3 +22,6 @@ class WeatherUndergroundConditions(WeatherUndergroundBase):
     def __init__(self):
         super().__init__()
         self._api_endpoint = 'conditions'
+
+    def get_signal_from_response(self, resp):
+        return Signal(resp.json().get('current_observation'))
