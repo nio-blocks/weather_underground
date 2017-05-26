@@ -1,17 +1,14 @@
 import requests
-from urllib.request import quote
+
 from nio.block.base import Block
-from nio.util.discovery import  not_discoverable
-from nio.properties.list import ListProperty
+from nio.block.mixins import Retry
+from nio.util.discovery import not_discoverable
 from nio.properties.string import StringProperty
-from nio.properties.holder import PropertyHolder
-from nio.properties.timedelta import TimeDeltaProperty
 from nio.signal.base import Signal
-from datetime import timedelta
 
 
 @not_discoverable
-class WeatherUndergroundBase(Block):
+class WeatherUndergroundBase(Retry, Block):
     """ This base block polls the Weather Underground API.
 
     Blocks that extend this should specify the api endpoint and what to extract
@@ -25,7 +22,6 @@ class WeatherUndergroundBase(Block):
     """
     URL_FORMAT = ("http://api.wunderground.com/api/{}/"
                   "{}/q/{}/{}.json")
-
     state = StringProperty(title='State', default='')
     city = StringProperty(title='City', default='')
     api_key = StringProperty(title='API Key',
@@ -33,39 +29,31 @@ class WeatherUndergroundBase(Block):
 
     def __init__(self):
         super().__init__()
-        self._api_endpoint = 'conditions'
-
-    def configure(self, context):
-        super().configure(context)
+        self._api_endpoint = None
 
     def process_signals(self, signals):
-        response = None
         weather_signals = []
-
         for signal in signals:
-            response = self.get_weather_from_city_state(
-                            self.state(signal),
-                            self.city(signal))
+            response = self.execute_with_retry(
+                self.get_weather_from_city_state,
+                self.state(signal),
+                self.city(signal))
             weather_signals.append(Signal(response.json()))
 
         self.notify_signals(weather_signals)
 
     def get_weather_from_city_state(self, state, city):
-        """ Execute the request
-
-        """
         headers = {"Content-Type": "application/json"}
-        resp = None
-        self.url = self.URL_FORMAT.format(self.api_key(),
-                                          self._api_endpoint,
-                                          state,
-                                          city)
+        get_url = self.URL_FORMAT.format(self.api_key(),
+                                         self._api_endpoint,
+                                         state,
+                                         city)
         try:
-            resp = requests.get(self.url, headers=headers)
-            if resp.status_code != 200:
-                self.logger.warning("GET request returned response status {}"
-                    .format(resp.status_code))
+            self.logger.debug("making request to url: {}".format(get_url))
+            resp = requests.get(get_url, headers=headers)
+            resp.raise_for_status()
         except:
             self.logger.exception("GET request failed")
-        finally:
+            raise
+        else:
             return resp
