@@ -31,6 +31,9 @@ class WeatherUndergroundBase(Retry, Block):
         super().__init__()
         self._api_endpoint = None
 
+    def get_signal_from_response(self, resp):
+        return Signal(resp.json())
+
     def process_signals(self, signals):
         weather_signals = []
         for signal in signals:
@@ -38,12 +41,8 @@ class WeatherUndergroundBase(Retry, Block):
                 self.get_weather_from_city_state,
                 self.state(signal),
                 self.city(signal))
-            try:
-                weather_signals.append(Signal(response.json()['current_observation']))
-                self.logger.debug("Weather Signal: {}".format(response.json()['current_observation']))
-            except:
-                weather_signals.append(Signal(response.json()['forecast']))
-                self.logger.debug("Weather Signal: {}".format(response.json()['forecast']))
+
+            weather_signals.append(self.get_signal_from_response(response))
 
         self.notify_signals(weather_signals)
 
