@@ -1,0 +1,24 @@
+{
+  "nio/WeatherUnderground": {
+    "Version": "1.0.0",
+    "Commands": {},
+    "Category": "WebService",
+    "Input": "None",
+    "Properties": {
+      "api_key": {
+        "description": "API credentials."
+      },
+      "state": {
+        "description": "State to poll."
+      },
+      "city": {
+        "description": "City to poll."
+      }
+    },
+    "Output": "One signal every *polling\\_interval*. The signal has an attribute for every [Response Field](http://www.wunderground.com/weather/api/d/docs?d=data/conditions). The following is a list of commonly used attributes:\n-   temp_f\n-   temp_c\n-   wind_dir\n-   wind_mph\n-   weather\n-   icon_url",
+    "Dependencies": [
+      "-   [requests](https://pypi.python.org/pypi/requests/)"
+    ],
+    "Description": "Polls [Weather Underground API](http://www.wunderground.com/weather/api/d/docs?d=data/conditions).\nCreates a weather signal every *polling\\_interval* for each location in *queries*."
+  }
+}
