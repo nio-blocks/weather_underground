@@ -1,25 +1,60 @@
 {
-    "nio/WeatherUnderground": {
-        "Category": "WebService",
-        "Commands": {},
-        "Properties": {
-            "city": {
-                "description": "City to poll."
-            },
-            "state": {
-                "description": "State to poll."
-            },
-            "api_key": {
-                "description": "API credentials."
-            }
+  "nio/WeatherUndergroundConditions": {
+    "Commands": {},
+    "Dependencies": [],
+    "Description": "",
+    "Input": "",
+    "Output": "",
+    "Properties": {
+      "API Key": {
+        "default": "[[WEATHER_UNDERGROUND_KEY_ID]]",
+        "description": ""
+      },
+      "City": {
+        "description": ""
+      },
+      "Retry Options": {
+        "default": {
+          "indefinite": false,
+          "max_retry": 5,
+          "multiplier": 1,
+          "strategy": "linear"
         },
-        "Input": {
-            "Description": "None"
+        "description": ""
+      },
+      "State": {
+        "description": ""
+      }
+    },
+    "Version": "2.0.0"
+  },
+  "nio/WeatherUndergroundForecast10Day": {
+    "Commands": {},
+    "Dependencies": [],
+    "Description": "",
+    "Input": "",
+    "Output": "",
+    "Properties": {
+      "API Key": {
+        "default": "[[WEATHER_UNDERGROUND_KEY_ID]]",
+        "description": ""
+      },
+      "City": {
+        "description": ""
+      },
+      "Retry Options": {
+        "default": {
+          "indefinite": false,
+          "max_retry": 5,
+          "multiplier": 1,
+          "strategy": "linear"
         },
-        "Output": {
-            "Description": "One signal every *polling\\_interval*. The signal has an attribute for every [Response Field](http://www.wunderground.com/weather/api/d/docs?d=data/conditions). The following is a list of commonly used attributes:\n-   temp_f\n-   temp_c\n-   wind_dir\n-   wind_mph\n-   weather\n-   icon_url"
-        },
-        "Version": "1.0.0",
-        "Description": "Polls [Weather Underground API](http://www.wunderground.com/weather/api/d/docs?d=data/conditions).\nCreates a weather signal every *polling\\_interval* for each location in *queries*."
-    }
+        "description": ""
+      },
+      "State": {
+        "description": ""
+      }
+    },
+    "Version": "2.0.0"
+  }
 }

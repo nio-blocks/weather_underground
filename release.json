@@ -1,5 +1,10 @@
 {
-  "nio/WeatherUnderground": {
+  "nio/WeatherUndergroundConditions": {
+    "Reference": "github.com/nio-blocks/weather_underground.git@v1.0.0",
+    "Language": "Python",
+    "Version": "1.0.0"
+  },
+  "nio/WeatherUndergroundForecast10Day": {
     "Reference": "github.com/nio-blocks/weather_underground.git@v1.0.0",
     "Language": "Python",
     "Version": "1.0.0"
