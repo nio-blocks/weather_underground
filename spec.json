@@ -1,60 +1,18 @@
 {
   "nio/WeatherUndergroundConditions": {
-    "Commands": {},
-    "Dependencies": [],
-    "Description": "",
-    "Input": "",
-    "Output": "",
-    "Properties": {
-      "API Key": {
-        "default": "[[WEATHER_UNDERGROUND_KEY_ID]]",
-        "description": ""
-      },
-      "City": {
-        "description": ""
-      },
-      "Retry Options": {
-        "default": {
-          "indefinite": false,
-          "max_retry": 5,
-          "multiplier": 1,
-          "strategy": "linear"
-        },
-        "description": ""
-      },
-      "State": {
-        "description": ""
-      }
-    },
-    "Version": "2.0.0"
+    "version": "0.0.1",
+    "description": "",
+    "inputs": {},
+    "outputs": {},
+    "properties": {},
+    "commands": {}
   },
   "nio/WeatherUndergroundForecast10Day": {
-    "Commands": {},
-    "Dependencies": [],
-    "Description": "",
-    "Input": "",
-    "Output": "",
-    "Properties": {
-      "API Key": {
-        "default": "[[WEATHER_UNDERGROUND_KEY_ID]]",
-        "description": ""
-      },
-      "City": {
-        "description": ""
-      },
-      "Retry Options": {
-        "default": {
-          "indefinite": false,
-          "max_retry": 5,
-          "multiplier": 1,
-          "strategy": "linear"
-        },
-        "description": ""
-      },
-      "State": {
-        "description": ""
-      }
-    },
-    "Version": "2.0.0"
+    "version": "0.0.1",
+    "description": "",
+    "inputs": {},
+    "outputs": {},
+    "properties": {},
+    "commands": {}
   }
 }
