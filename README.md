@@ -1,39 +1,53 @@
-WeatherUnderground
-===========
-
-Polls [Weather Underground API](http://www.wunderground.com/weather/api/d/docs?d=data/conditions).
-
-Creates a weather signal every *polling\_interval* for each location in *queries*.
-
+WeatherUndergroundConditions
+============================
+Gets current conditions weather data from WeatherUnderground for the given city and state.
 
 Properties
---------------
+----------
+- **api_key**: WeatherUnderground API key
+- **city**: City to get conditions for
+- **retry_options**: Options for retrying requests to WeatherUnderground
+- **state**: State to get conditions for
 
--   **city**: City to poll.
--   **state**: State to poll.
--   **api_key**: API credentials.
+Inputs
+------
+- **default**: Any list of signals.
 
-
-Dependencies
-----------------
-
--   [requests](https://pypi.python.org/pypi/requests/)
+Outputs
+-------
+- **default**: A list of signals, one signal for each input signal with added weather data attributes.
 
 Commands
-----------------
+--------
 None
 
-Input
+Dependencies
+------------
+requests
+
+WeatherUndergroundForecast10Day
+===============================
+Gets 10 day forecast weather data from WeatherUnderground for the given city and state.
+
+Properties
+----------
+- **api_key**: API credentials.
+- **city**: City to get forecast for
+- **retry_options**: Options for retrying requests to WeatherUnderground
+- **state**: State to poll.
+
+Inputs
+------
+- **default**: Any list of signals.
+
+Outputs
 -------
+- **default**: A list of signals, one signal for each input signal with added weather data attributes.
+
+Commands
+--------
 None
 
-Output
----------
-One signal every *polling\_interval*. The signal has an attribute for every [Response Field](http://www.wunderground.com/weather/api/d/docs?d=data/conditions). The following is a list of commonly used attributes:
-
--   temp_f
--   temp_c
--   wind_dir
--   wind_mph
--   weather
--   icon_url
+Dependencies
+------------
+requests

@@ -1,12 +1,12 @@
 {
   "nio/WeatherUndergroundConditions": {
     "language": "Python",
-    "version": "0.0.1",
-    "url": "git://github.com/nio-blocks/weather_underground.git"
+    "url": "git://github.com/nio-blocks/weather_underground.git",
+    "version": "2.0.0"
   },
   "nio/WeatherUndergroundForecast10Day": {
     "language": "Python",
-    "version": "0.0.1",
-    "url": "git://github.com/nio-blocks/weather_underground.git"
+    "url": "git://github.com/nio-blocks/weather_underground.git",
+    "version": "2.0.0"
   }
 }

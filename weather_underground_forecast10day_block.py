@@ -1,10 +1,9 @@
-from nio.util.discovery import discoverable
 from nio.properties.version import VersionProperty
-from .weather_underground_base import WeatherUndergroundBase
 from nio.signal.base import Signal
 
+from .weather_underground_base import WeatherUndergroundBase
 
-@discoverable
+
 class WeatherUndergroundForecast10Day(WeatherUndergroundBase):
     """ This block polls the Weather Underground API, grabbing the
     weather forecast10day in a given location.
@@ -17,7 +16,7 @@ class WeatherUndergroundForecast10Day(WeatherUndergroundBase):
 
     """
 
-    version = VersionProperty(version='2.0.0')
+    version = VersionProperty('2.0.0')
 
     def __init__(self):
         super().__init__()

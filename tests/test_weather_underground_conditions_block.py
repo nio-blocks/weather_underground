@@ -42,7 +42,8 @@ class TestWeatherUndergroundConditions(NIOBlockTestCase):
                              state,
                              city)
                          )
-        self.assertDictEqual(self.last_signal_notified().to_dict(), mock_json.return_value["current_observation"])
+        self.assertDictEqual(self.last_signal_notified().to_dict(),
+                             mock_json.return_value["current_observation"])
         blk.stop()
 
     @patch("requests.get")
