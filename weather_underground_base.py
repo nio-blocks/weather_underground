@@ -2,9 +2,9 @@ import requests
 
 from nio.block.base import Block
 from nio.block.mixins import Retry
-from nio.util.discovery import not_discoverable
 from nio.properties.string import StringProperty
 from nio.signal.base import Signal
+from nio.util.discovery import not_discoverable
 
 
 @not_discoverable
