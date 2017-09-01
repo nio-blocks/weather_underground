@@ -46,7 +46,7 @@
     "commands": {}
   },
   "nio/WeatherUndergroundForecast10Day": {
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "Gets 10 day forecast weather data from WeatherUnderground for the given city and state.",
     "properties": {
       "api_key": {
