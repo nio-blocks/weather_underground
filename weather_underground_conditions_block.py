@@ -16,7 +16,7 @@ class WeatherUndergroundConditions(WeatherUndergroundBase):
 
     """
 
-    version = VersionProperty("1.0.0")
+    version = VersionProperty("2.0.0")
 
     def __init__(self):
         super().__init__()
