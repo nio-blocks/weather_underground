@@ -2,6 +2,9 @@
   "nio/WeatherUndergroundConditions": {
     "version": "2.0.0",
     "description": "Gets current conditions weather data from WeatherUnderground for the given city and state.",
+    "categories": [
+      "Web Data"
+    ],
     "properties": {
       "api_key": {
         "title": "API Key",
@@ -48,6 +51,9 @@
   "nio/WeatherUndergroundForecast10Day": {
     "version": "2.0.0",
     "description": "Gets 10 day forecast weather data from WeatherUnderground for the given city and state.",
+    "categories": [
+      "Web Data"
+    ],
     "properties": {
       "api_key": {
         "title": "API Key",
